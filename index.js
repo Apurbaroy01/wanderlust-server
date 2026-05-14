@@ -38,6 +38,15 @@ async function run() {
             }
         });
 
+        app.get('/destinations', async (req, res) => {
+            try {
+                const result = await destinationCollection.find().toArray();
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
 
 
 
