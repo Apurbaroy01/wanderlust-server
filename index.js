@@ -7,7 +7,7 @@ dotenv.config()
 app.use(cors())
 app.use(express.json())
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = process.env.MONGO_URI;
 
 const port = process.env.PORT || 5000
@@ -47,7 +47,16 @@ async function run() {
             }
         });
 
-
+        app.get('/destinations/:id', async (req, res) => {
+            const { id } = req.params;
+            console.log(id);
+            try {
+                const result = await destinationCollection.findOne({ _id: new ObjectId(id) });
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
 
 
         // Connect the client to the server	(optional starting in v4.7)
