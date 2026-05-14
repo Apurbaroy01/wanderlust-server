@@ -58,6 +58,29 @@ async function run() {
             }
         });
 
+        app.patch('/destination/:id', async (req, res) => {
+            const { id } = req.params;
+            console.log(id);
+            try {
+                const result = await destinationCollection.updateOne({ _id: new ObjectId(id) },
+                    { $set: req.body });
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
+        app.delete('/destination/:id', async (req, res) => {
+            const { id } = req.params;
+            console.log(id);
+            try {
+                const result = await destinationCollection.deleteOne({ _id: new ObjectId(id) });
+                res.json(result);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        });
+
 
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
